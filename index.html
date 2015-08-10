@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		body {
+			padding: 100px;
+			margin: 0;
+			background: url(img/pattern.png) repeat;
+		}
+		.mce-container {
+			border: none !important; 
+		}
+		#toolbar {
+			visibility: hidden;
+			position: absolute;
+			background-color: #000;
+			text-align: center;
+			margin-top: -15px;
+			z-index: 100;
+		}
+		#toolbar.is-active {
+			visibility: visible;
+		}
+		#toolbar:before {
+			content: "";
+			position: absolute;
+			border-width: 10px;
+			border-style: solid solid none;
+			border-color: #000 transparent;
+			top: 100%;
+			left: 50%;
+			margin-left: -10px;
+		}
+
+		button {
+			height: 40px;
+			width: 40px;
+			padding: 0;
+			border: none;
+			background: transparent;
+			color: #fff;
+			font-size: 1em;
+		}
+	</style>
+</head>
+<body>
+	<form action="#">
+		<div id="toolbar">
+			<button id="bold">B</button> <button id="italic">I</button> <button id="strike">S</button>
+		</div>	
+		<h2 id="title"></h2>
+		<p id="text"></p>
+	</form>
+	<script src="tinymce/js/tinymce/tinymce.min.js"></script>
+	<script src="polyfills/selectionchange.js"></script>
+	<script src="Buffer.js"></script>
+	<script src="Toolbar.js"></script>
+	<script>
+		var $ = tinymce.dom.DomQuery;
+		tinymce.init({
+			selector: "#title",
+			toolbar: false,
+			menubar: false,
+			height: 50,
+			statusbar: false,
+			plugins: "autoresize",
+			autoresize_min_height: 0,
+			autoresize_bottom_margin: 0,
+			init_instance_callback: function(editor) {
+				editor.setContent("<h2>This is Title</h2>");
+				var buffer = new Buffer(editor);
+				var toolbarEl = document.getElementById("toolbar");
+				new Toolbar(toolbarEl, buffer);
+			}
+		});
+		tinymce.init({
+			selector: "#text",
+			toolbar: false,
+			menubar: false,
+			height: 50,
+			statusbar: false,
+			plugins: "autoresize",
+			autoresize_min_height: 0,
+			autoresize_bottom_margin: 0,
+			init_instance_callback: function(editor) {
+				editor.setContent("<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>");
+				var buffer = new Buffer(editor);
+				var toolbarEl = document.getElementById("toolbar");
+				new Toolbar(toolbarEl, buffer)
+			}
+		});
+	</script>
+</body>
+</html>
